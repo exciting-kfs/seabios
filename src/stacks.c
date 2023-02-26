@@ -18,6 +18,14 @@
 
 #define MAIN_STACK_MAX (1024*1024)
 
+#ifndef MODESEGMENT 
+#define MODESEGMENT 0
+#endif
+
+#ifndef MODE16 
+#define MODE16 0
+#endif
+
 
 /****************************************************************
  * 16bit / 32bit calling
