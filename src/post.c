@@ -178,7 +178,7 @@ prepareboot(void)
     BiosChecksum -= checksum((u8*)BUILD_BIOS_ADDR, BUILD_BIOS_SIZE);
 }
 
-extern struct descloc_s rombios32_gdt_48;
+extern struct descloc_s mycustom_gdt_48;
 
 // Begin the boot process by invoking an int0x19 in 16bit mode.
 void VISIBLE32FLAT
@@ -186,7 +186,14 @@ startBoot(void)
 {
     // Clear low-memory allocations (required by PMM spec).
     memset((void*)BUILD_STACK_ADDR, 0, BUILD_EBDA_MINIMUM - BUILD_STACK_ADDR);
-    memcpy((void*)0x800, rombios32_gdt_48.addr, rombios32_gdt_48.length + 1); // FIXME 이게 맞나..?
+    memcpy((void*)0x800, mycustom_gdt_48.addr, mycustom_gdt_48.length + 1); // FIXME 이게 맞나..?
+
+    struct descloc_s gdtr = {
+	    .addr = 0x800,
+	    .length = mycustom_gdt_48.length
+    };
+
+    memcpy((void*)0x800 - sizeof(gdtr), &gdtr, sizeof(gdtr));
 
     dprintf(3, "Jump to int19\n");
     struct bregs br;

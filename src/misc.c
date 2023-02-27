@@ -162,10 +162,32 @@ u64 rombios32_gdt[] VARFSEG __aligned(8) = {
     GDT_GRANLIMIT(0xffffffff) | GDT_DATA,
 };
 
+u64 mycustom_gdt[]  VARFSEG __aligned(8) = {
+    // First entry can't be used.
+    0x0000000000000000LL,
+    // 32 bit kernel code segment
+    GDT_GRANLIMIT(0xa00000) | GDT_CODE_K | GDT_B,
+    // 32 bit kernel data segment
+    GDT_GRANLIMIT(0xa00000) | GDT_DATA_K | GDT_B,
+    // 32 bit kernel stack segment
+    GDT_GRANLIMIT(0xa00000) | GDT_DATA_K | GDT_B,
+    // 32 bit user code segment
+    GDT_GRANLIMIT(0xff5fffff) | GDT_CODE_U | GDT_B | GDT_BASE(0xa00000),
+    // 32 bit user data segment
+    GDT_GRANLIMIT(0xff5fffff) | GDT_DATA_U | GDT_B | GDT_BASE(0xa00000),
+    // 32 bit user stack segment
+    GDT_GRANLIMIT(0xff5fffff) | GDT_DATA_U | GDT_B | GDT_BASE(0xa00000),
+};
+
 // GDT descriptor
 struct descloc_s rombios32_gdt_48 VARFSEG = {
     .length = sizeof(rombios32_gdt) - 1,
     .addr = (u32)rombios32_gdt,
+};
+
+struct descloc_s mycustom_gdt_48 VARFSEG = {
+    .length = sizeof(mycustom_gdt) - 1,
+    .addr = (u32)mycustom_gdt,
 };
 
 
