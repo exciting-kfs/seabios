@@ -171,11 +171,11 @@ u64 mycustom_gdt[]  VARFSEG __aligned(8) = {
     // 32 bit kernel stack segment
     GDT_GRANLIMIT(0xffffffff) | GDT_DATA_K | GDT_B,
     // 32 bit user code segment
-    GDT_GRANLIMIT(0xbf000000) | GDT_CODE_U | GDT_B | GDT_BASE(0x1000000),
+    GDT_GRANLIMIT(0xbefe0000) | GDT_CODE_U | GDT_B | GDT_BASE(0x1000000),
     // 32 bit user data segment
-    GDT_GRANLIMIT(0xbf000000) | GDT_DATA_U | GDT_B | GDT_BASE(0x1000000),
+    GDT_GRANLIMIT(0xbefe0000) | GDT_DATA_U | GDT_B | GDT_BASE(0x1000000),
     // 32 bit user stack segment
-    GDT_GRANLIMIT(0xbf000000) | GDT_DATA_U | GDT_B | GDT_BASE(0x1000000),
+    GDT_GRANLIMIT(0xbefe0000) | GDT_DATA_U | GDT_B | GDT_BASE(0x1000000),
 };
 
 // GDT descriptor
